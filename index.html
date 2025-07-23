@@ -45,13 +45,13 @@
   \begin{align}
     \left.
       \begin{array}{@{\,}rl}
-       \ddot x_k(n)&=~ -\eta K_D \dot x_k(n) - \eta K_P\{x_k(n) - u(n)\},\\
-       \dot x_{k+1}(n)&=~ \dot x_k(n)+\ddot x_k(n)\varDelta t,\\
-       x_{k+1}(n)&=~ x_k(n) + \dot x_k(n)\varDelta t + \frac{1}{2}\ddot x_k(n)\varDelta t^2.
+       \ddot x_k(n)&=~ -\eta K_D \dot x_k(n) - \eta K_P\{x_k(n) - u(n)\} +b w(n),\\
+       \dot x_{k+1}(n)&=~ \dot x_k(n)+\ddot x_k(n)\varDelta t +a w(n),\\
+       x_{k+1}(n)&=~ x_k(n) + \dot x_k(n)\varDelta t + \frac{1}{2}\ddot x_k(n)\varDelta t^2 +v(n).
       \end{array} \label{eq:Euler}
     \right\}  
   \end{align}
-
+    <p>\(v(n)\)は出力ノイズ、\(w(n)\)は入力ノイズであり、乱数を用いて発生させます。</p>
     <p>規範モデル：</p>
     \begin{align}
     \ddot x_M + a\dot x_M + b(x_M - u)= 0 \label{eq:MdlEqn}
@@ -240,7 +240,7 @@ u(n) = \sin(2\pi nfT)\label{eq:SineInp}
   <img src="η_ηhat.jpg" width=500px>  
   
   <p>以上のことから、モデル規範適応制御に逐次最小二乗法とKalmanフィルターを適用した場合でも、
-    適応制御則が有効に動作することを確認します。</p>
+    適応制御則が有効に動作することを確認できます。</p>
 
   <p><a href="https://aoyamakohbo.github.io/Craftlogy/">->TOP</a></p>
 </body>
