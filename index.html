@@ -23,7 +23,7 @@
     <h3>§モデル規範適応制御</h3>
     <p><a href="https://aoyamakohbo.github.io/AdaptContVib1D/">モデル規範適応制御の数値解析(数値実験)</a>
     では、状態ベクトル\(\mathbf{x}=[x~~~\dot{x}]\)を観測可能として数値実験しています。
-    しかし、実際に観測できるのは出力\(y=x\)のみとなります。
+    しかし、実際に観測できるのは出力\(y=x\)のみです。
     <a href="https://aoyamakohbo.github.io/KmlVib1D/">１自由度粘弾性振動系(Kalmanフィルターの適用)</a>では、
     状態ベクトル\(\mathbf{x}=[x~~~\dot{x}]\)を再現できることを確認しています。
     しかし、Kalmanフィルターには適応制御対象の状態方程式の係数行列が必要です。
@@ -89,7 +89,8 @@ u(n) = \sin(2\pi nfT)\label{eq:SineInp}
 \end{align}
 
   <h3>§逐次最小二乗法の適用</h3>
-    <p>観測対象\eqref{eq:RtnEqn}からは観測値として\(y(n)\)しか観測されないので、
+    <p><a href="https://aoyamakohbo.github.io/LstSqtMth2/">多変数逐次最小二乗法</a>を制御対象\eqref{eq:SysEqn2}に適用します。
+      制御対象\eqref{eq:SysEqn2}からは観測値として\(y(n)=x(n)\)しか観測されないので、
     \(y(n)\)の中央差分により\(\dot x(n)\)を求めます。</p>
 
   \begin{align}
@@ -122,8 +123,7 @@ u(n) = \sin(2\pi nfT)\label{eq:SineInp}
   \end{align}
 
 <p>ここに、\(\hat{\mathbf{A}}(n)\)は逐次最小二乗法で推定される係数行列です。
-  \(\mathbf{x}(n)\)、\(u(n)\)で構成される
-   \(\mathbf{y}(n)\)、\(\mathbf{z}(n)\)に対して次式の逐次最小二乗法を適用します。</p>
+  \(\mathbf{y}(n)\)、\(\mathbf{z}(n)\)に対して次式の逐次最小二乗法を適用します。</p>
   \begin{align}
     \left.
     \begin{array}{@{\,}rl}
@@ -161,7 +161,9 @@ u(n) = \sin(2\pi nfT)\label{eq:SineInp}
   \end{align*}
 
  <h3>§カルマンフィルターの適用</h3>
-<p>逐次最小二乗法\eqref{eq:RtLstMtd}で得られる係数行列\eqref{eq:LstEQ}の\([\hat{\mathbf{P}}~~\hat{\mathbf{Q}}]=\hat{\mathbf{A}}(n)\)
+<p><a href="https://aoyamakohbo.github.io/KmlVib1D/">１自由度粘弾性振動系(カルマンフィルターの適用)</a>では制御対象への入力\(u\)と観測対象からの出力\(y\)から
+  状態ベクトルを推定できることを確認しています。
+  そこで、逐次最小二乗法\eqref{eq:RtLstMtd}で得られる係数行列\eqref{eq:LstEQ}の\([\hat{\mathbf{P}}~~\hat{\mathbf{Q}}]=\hat{\mathbf{A}}(n)\)
   として、定常Kalmanフィルターを次式とします。</p>
 \begin{align}
   \left.
@@ -209,16 +211,16 @@ u(n) = \sin(2\pi nfT)\label{eq:SineInp}
       \end{align}
     <p>ここに、\(\alpha=10^{-5}\)、\(c=2/25.12\)とします。
       式\eqref{eq:AdaptRule0}において、\(\dot{\hat{\eta}}=(\eta(n)-\eta(n-1))/T\)と近似して、
-      \(\dot{\hat{\eta}}\)を積分ます。
+      \(\dot{\hat{\eta}}\)を積分します。
     </p>
     \begin{align}
-    \hat\eta(n)=\hat\eta(n-1)-\alpha T\frac{v_{FB}(n)\varepsilon(n)}{\hat\eta} \label{eq:eta_n}
+    \hat\eta(n)=\hat\eta(n-1)-\alpha T\frac{v_{FB}(n)\varepsilon(n)}{\hat\eta(n-1)} \label{eq:eta_n}
     \end{align}
     <p>数値実験では\eqref{eq:SysEqn2}から\eqref{eq:eta_n}の計算を１ステップとします。</p>
  
  <h3>§数値実験結果</h3>
- <p>ここでは、
-    適応制御対象\eqref{eq:SysEqn2}の\(\eta=0.5 (< \hat{\eta})\)と\(\eta=2.0 (> \hat{\eta})\)の場合について、
+ <p>ここでは、初期値\(\hat{\eta}(0)=1\)として、
+    適応制御対象\eqref{eq:SysEqn2}の\(\eta=0.5 (< \hat{\eta}(0))\)と\(\eta=2.0 (> \hat{\eta}(0))\)の場合について、
     制御対象の状態ベクトル\(\mathbf{x}(n)=[x(n)~~\dot{x}(n)]^T\)と
     Kalmanフィルターの状態ベクトル\(\hat{\mathbf{x}}(n)=[\hat{x}(n)~~\dot{\hat{x}}(n)]^T\)を比較します。</p>
  <p>まず、下図は\(\eta=0.5\)の場合について制御対象の状態ベクトル\(\mathbf{x}(n)=[x(n)~~\dot{x}(n)]^T\)と
@@ -233,8 +235,8 @@ u(n) = \sin(2\pi nfT)\label{eq:SineInp}
      \(n=500\)以降は両者は見事に一致し、Kalmanフィルターが見事に制御対象を再現していることを確認できます。</p>    
   <img src="AdaptCont200.jpg" width=500px>
     
-  <p>下図は初期値\(\eta=0.5\)と\(\eta=2.0\)の場合について、\(\eta/\hat{\eta}\)を描画したグラフです。
-      いずれの場合も、\(\eta/\hat{\eta}=1\)に収束することを確認できます。
+  <p>下図は初期値\(\eta=0.5\)(\(\eta/\hat{\eta}(0)=0.5\))と\(\eta=2.0\)(\(\eta/\hat{\eta}(0)=2.0\))の場合について、\(\eta/\hat{\eta}\)を描画したグラフです。
+      いずれの場合も、\(\eta/\hat{\eta}=1\)、すなわち\(\hat{\eta}=\eta\)(真値)に収束することを確認できます。
       <a href="https://aoyamakohbo.github.io/AdaptContVib1D/">モデル規範適応制御の数値解析(数値実験)</a>
     と同様に、\(\eta=0.5\)の場合が速く収束しています。</p>
   <img src="η_ηhat.jpg" width=500px>  
